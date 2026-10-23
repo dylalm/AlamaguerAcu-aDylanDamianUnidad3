@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    name: validar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, xml, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Preparar entorno
+        run: |
+          cp .env.example .env
+          composer install --prefer-dist --no-progress --no-interaction
+          php artisan key:generate
+
+      - name: Compilar assets (Vite)
+        run: |
+          npm ci
+          npm run build
+
+      - name: Revisar estilo de código (Pint)
+        run: ./vendor/bin/pint --test
+
+      - name: Ejecutar pruebas
+        run: php artisan test

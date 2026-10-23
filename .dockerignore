@@ -1,0 +1,9 @@
+.git
+.github
+node_modules
+vendor
+public/build
+storage/logs/*
+.env
+setup
+setup-repo.sh
