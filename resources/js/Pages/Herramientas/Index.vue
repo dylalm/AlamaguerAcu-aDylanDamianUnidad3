@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import HerramientaCard from '@/Components/HerramientaCard.vue';
+import ClimaWidget from '@/Components/ClimaWidget.vue';
 
 const props = defineProps({
     herramientas: { type: Array, required: true },
@@ -60,6 +61,8 @@ function pedir(herramienta) {
         <main class="mx-auto max-w-5xl px-6 py-8">
             <h1 class="text-3xl font-bold text-[#1b4332]">Herramientas cerca de ti</h1>
             <p class="mt-1 text-gray-600">Busca lo que necesitas y pídeselo prestado a un vecino. Los resultados se ordenan del más cercano al más lejano.</p>
+
+            <ClimaWidget class="mt-6" />
 
             <form class="mt-6 grid gap-3 rounded-xl bg-white p-4 shadow-sm sm:grid-cols-[1fr_200px_auto] sm:items-center" @submit.prevent>
                 <div>
